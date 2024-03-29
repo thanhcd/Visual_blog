@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+  <title>OnePage Bootstrap Template - Index</title>
+  <meta content="" name="description" />
+  <meta content="" name="keywords" />
+
+  <!-- Favicons -->
+  <link href="{{ url_for('static', filename='assets/img/favicon.png') }}" rel="icon" />
+  <link href="{{ url_for('static', filename='assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon" />
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet" />
+
+  <!-- Vendor CSS Files -->
+  <link href="{{ url_for('static', filename='assets/css/style.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='assets/css/blog.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='assets/vendor/aos/aos.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet" />
+
+  <!-- Template Main CSS File -->
+  <link href="{{ url_for('static', filename='assets/css/style.css') }}" rel="stylesheet" />
+
+  <!-- =======================================================
+  * Template Name: OnePage
+  * Updated: Feb 21 2024 with Bootstrap v5.3.2
+  * Template URL: https://bootstrapmade.com/onepage-multipurpose-bootstrap-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center justify-content-between">
+      <h1 class="logo">
+        <a href="{{ url_for('return_index') }}">VisualBlog</a>
+      </h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto" href="#hero">Home</a></li>
+          <li><a class="nav-link scrollto" href="{{ url_for('newfeed') }}">About</a></li>
+          <!-- <li><a class="nav-link scrollto" href="#services">Services</a></li>
+          <li><a class="nav-link scrollto o" href="#portfolio">Portfolio</a></li>
+          <li><a class="nav-link scrollto" href="#team">Team</a></li>
+          <li><a class="nav-link scrollto" href="#pricing">Pricing</a></li> -->
+          <li class="dropdown">
+            <a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="#">Drop Down 1</a></li>
+              <li class="dropdown">
+                <a href="#"><span>Deep Drop Down</span>
+                  <i class="bi bi-chevron-right"></i></a>
+                <ul>
+                  <li><a href="{{ url_for('inner_page') }}">Deep Drop Down 1</a></li>
+                  <li><a href="#">Deep Drop Down 2</a></li>
+                  <li><a href="#">Deep Drop Down 3</a></li>
+                  <li><a href="#">Deep Drop Down 4</a></li>
+                  <li><a href="#">Deep Drop Down 5</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Drop Down 2</a></li>
+              <li><a href="#">Drop Down 3</a></li>
+              <li><a href="#">Drop Down 4</a></li>
+            </ul>
+          </li>
+          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+          <li>
+            <a class="getstarted scrollto" href="{{ url_for('user_page') }}">{{ session['account'] }}</a>
+          </li>
+          <li>
+            <a class="logout" href="{{ url_for('logout') }}">Đăng xuất</a>
+          </li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav>
+      <!-- .navbar -->
+    </div>
+  </header>
+  <!-- End Header -->
+
+  <main id="main">
+    <!-- ======= Breadcrumbs ======= -->
+    <section class="breadcrumbs">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>New Feed</h2>
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li>Inner Page</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+    <!-- End Breadcrumbs -->
+
+    <section class="inner-page">
+      {% for post in posts %}
+      <div class="container">
+        <div class="container mt-5 mb-5">
+          <div class="row d-flex align-items-center justify-content-center">
+            <div class="col-md-6">
+              <div class="card">
+                <div class="d-flex justify-content-between p-2 px-3">
+                  <div class="d-flex flex-row align-items-center">
+                    <img src="{{ url_for('static', filename='assets/img/blogicon.png') }}" width="50"
+                      class="rounded-circle" alt="Blog Icon" />
+                    <div class="d-flex flex-column ml-2">
+                      <span class="font-weight-bold" color="#16507b">
+                        <p class="form-icon">Visualblog</p>
+                      </span>
+                      <small class="text-primary">
+                        {{ post.username }}
+                      </small>
+                    </div>
+                  </div>
+                  <div class="d-flex flex-row mt-1 ellipsis">
+                    <small class="mr-2">
+                    </small>
+                    <i class="fa fa-ellipsis-h"></i>
+                  </div>
+                </div>
+                <img src="https://i.imgur.com/xhzhaGA.jpg" class="img-fluid" alt="Post Featured Image" />
+                <div class="p-2">
+                  <p class="text-justify">{{ post.content }}</p>
+                  <img class="output-img-post" src="{{ post.image }}" alt="Post Image" />
+                  <hr />
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex flex-row icons d-flex align-items-center">
+                      <i class="fa fa-heart"></i>
+                      <i class="fa fa-smile-o ml-2"></i>
+                    </div>
+                    <div class="container">
+                      <div class="row">
+                        {% for comment in comment_details %}
+                        {% if post.blogid == comment.blogid %}
+                        <form action='/del_comment' method="POST">
+                          <div class="row" style="color: #a09c9c; font-size: 13px;">
+                            <div class="col-md-11">
+                              <p>User: {{ comment.username }}</p>
+                              <p>Comment: {{ comment.comment }}</p>
+                            </div>
+                            {% if comment.accid == session['AccID'] %}
+                            <input type="hidden" name="blogid" value="{{ comment.blogid }}">
+                            <input type="hidden" name="commentid" value="{{ comment.commentid }}">
+                            <button type="submit" class="btn btn-sm col-md-1">
+                              X
+                            </button>
+
+                            {% endif %}
+                          </div>
+                        </form>
+                        {% if comment.accid == session['AccID'] %}
+                        <button class="btn btn-primary btn-block" data-bs-toggle="modal"
+                          data-bs-target="#update_comment" data-commentid="{{ comment.commentid }}">
+                          edit
+                        </button>
+                        {% endif %}
+                        <hr>
+                        {% endif %}
+                        {% endfor %}
+                      </div>
+                      <div class="row-md-4">
+                        <button class="btn btn-primary btn-block" data-bs-toggle="modal" data-bs-target="#comment"
+                          style="margin-left: 30rem;" data-blogid="{{ post.blogid }}">
+                          Comments
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </section>
+
+  </main>
+  <!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-6 footer-contact">
+            <h3>OnePage</h3>
+            <p>
+              A108 Adam Street <br />
+              New York, NY 535022<br />
+              United States <br /><br />
+              <strong>Phone:</strong> +1 5589 55488 55<br />
+              <strong>Email:</strong> info@example.com<br />
+            </p>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li>
+                <i class="bx bx-chevron-right"></i> <a href="#">Home</a>
+              </li>
+              <li>
+                <i class="bx bx-chevron-right"></i> <a href="#">About us</a>
+              </li>
+              <li>
+                <i class="bx bx-chevron-right"></i> <a href="#">Services</a>
+              </li>
+              <li>
+                <i class="bx bx-chevron-right"></i>
+                <a href="#">Terms of service</a>
+              </li>
+              <li>
+                <i class="bx bx-chevron-right"></i>
+                <a href="#">Privacy policy</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Our Services</h4>
+            <ul>
+              <li>
+                <i class="bx bx-chevron-right"></i> <a href="#">Web Design</a>
+              </li>
+              <li>
+                <i class="bx bx-chevron-right"></i>
+                <a href="#">Web Development</a>
+              </li>
+              <li>
+                <i class="bx bx-chevron-right"></i>
+                <a href="#">Product Management</a>
+              </li>
+              <li>
+                <i class="bx bx-chevron-right"></i> <a href="#">Marketing</a>
+              </li>
+              <li>
+                <i class="bx bx-chevron-right"></i>
+                <a href="#">Graphic Design</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-lg-4 col-md-6 footer-newsletter">
+            <h4>Join Our Newsletter</h4>
+            <p>
+              Tamen quem nulla quae legam multos aute sint culpa legam noster
+              magna
+            </p>
+            <form action="" method="post">
+              <input type="email" name="email" /><input type="submit" value="Subscribe" />
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container d-md-flex py-4">
+      <div class="me-md-auto text-center text-md-start">
+        <div class="copyright">
+          &copy; Copyright <strong><span>OnePage</span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+          <!-- All the links in the footer should remain intact. -->
+          <!-- You can delete the links only if you purchased the pro version. -->
+          <!-- Licensing information: https://bootstrapmade.com/license/ -->
+          <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/onepage-multipurpose-bootstrap-template/ -->
+          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        </div>
+      </div>
+      <div class="social-links text-center text-md-right pt-3 pt-md-0">
+        <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+        <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+      </div>
+    </div>
+  </footer>
+  <!-- End Footer -->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{{ url_for('static', filename='assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/aos/aos.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/php-email-form/validate.js') }}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+</body>
+
+
+<!-- form thêm comment -->
+<div class="modal fade" id="comment" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <form action="/comment" method="POST">
+          <h1 class="modal-title fs-5" id="addModalLabel">Comment information</h1>
+          <input type="hidden" name="blogid" value="blogId">
+          <textarea name="comment" placeholder="What're u thinking?" class="area-input"></textarea>
+          <button class="btn btn-primary" type="submit">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- form sửa comment -->
+
+<div class="modal fade" id="update_comment" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <form action="/update_comment" method="POST">
+          <h1 class="modal-title fs-5" id="addModalLabel">Comment edit</h1>
+          <input type="hidden" name="commentid" value="commentId">
+          <textarea name="comment" placeholder="What're u thinking?" class="area-input"></textarea>
+          <button class="btn btn-primary" type="submit">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- scripts lấy blogid cho button comment -->
+<script>
+  const commentButtons = document.querySelectorAll('.btn-primary[data-bs-target="#comment"]');
+
+  commentButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const blogId = button.dataset.blogid;
+
+      // Access the hidden blog ID field in the edit modal
+      const modalContent = document.getElementById('comment').querySelector('.modal-content');
+      const hiddenBlogIdField = modalContent.querySelector('input[name="blogid"]');
+
+      // Populate the hidden blog ID field with the retrieved blog ID
+      hiddenBlogIdField.value = blogId;
+
+      // ... other logic to populate content, image preview (if applicable)
+      const contentField = modalContent.querySelector('textarea[name="comment"]');
+      contentField.value = content;
+
+    });
+  });
+
+</script>
+
+
+<!-- scripts lấy commentid cho button sửa comment -->
+<script>
+  const commentEditButtons = document.querySelectorAll('.btn-primary[data-bs-target="#update_comment"]');
+
+  commentEditButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const commentId = button.dataset.commentid;
+
+      // Access the hidden blog ID field in the edit modal
+      const modalContent = document.getElementById('update_comment').querySelector('.modal-content');
+      const hiddencommentIdField = modalContent.querySelector('input[name="commentid"]');
+
+      // Populate the hidden blog ID field with the retrieved blog ID
+      hiddencommentIdField.value = commentId;
+
+      // ... other logic to populate content, image preview (if applicable)
+      const contentField = modalContent.querySelector('textarea[name="comment"]');
+      contentField.value = content;
+
+    });
+  });
+
+</script>
+
+
+</html>
