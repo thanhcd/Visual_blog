@@ -142,6 +142,12 @@ def inner_page():
 
 # Run ứng dụng Flask
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug)
+    
+
+# Ví dụ giờ mình code cái mới, đây là các để up code mới lên
+# Đầu tiên gõ git add .
+# Sau đó là git commit -m "ghi cc gì vô đây cũng đc, chủ yếu là ghi nội dung mình đã code"
+# Rồi git push origin master
 
 
