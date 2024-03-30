@@ -108,8 +108,8 @@ def del_comment_details(mysql):
     
     blogid = request.form.get('blogid')
     commentid = request.form.get('commentid')
-    print(blogid)
-    print(commentid)
+    # print(blogid)
+    # print(commentid)
     try:
         with mysql.connection.cursor() as cur:
             # Xóa bình luận từ bảng comment
@@ -129,9 +129,9 @@ def update_comment(mysql):
         return redirect(url_for('login_page'))
    
     commentid = request.form.get('commentid')
-    print(commentid)
+    # print(commentid)
     comment = request.form.get('comment')
-    print(comment)
+    # print(comment)
 
 
     if request.method == "POST":
@@ -155,11 +155,11 @@ def like(mysql):
     if request.method == "POST":
         # likes = request.form['like']
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO likes(AccID, Likes) VALUES (%s, %s)", (acc_id, True))
-        cur.execute("SELECT LAST_INSERT_ID()")
-        likes_id = cur.fetchone()[0]
+        cur.execute("INSERT INTO blog_like_test(BlogID, AccID, Likes) VALUES (%s, %s, %s)", (blogid, acc_id, True))
+        # cur.execute("SELECT LAST_INSERT_ID()")
+        # likes_id = cur.fetchone()[0]
 
-        cur.execute("INSERT INTO blog_likes(BlogID, LikeID) VALUES (%s, %s)", (blogid, likes_id))
+        # cur.execute("INSERT INTO blog_likes(BlogID, LikeID) VALUES (%s, %s)", (blogid, likes_id))
         mysql.connection.commit()
         cur.close()
         return "like thành công"
@@ -172,41 +172,53 @@ def del_like(mysql):
     
     acc_id = session.get('AccID')
     blogid = request.form.get('blogid')
-    likeid = request.form.get('likeid')
+    # likeid = request.form.get('likeid')
     try:
         with mysql.connection.cursor() as cur:
             # Xóa bình luận từ bảng comment
-            cur.execute("UPDATE likes INNER JOIN blog_likes ON likes.id = blog_likes.LikeID SET likes.Likes = 0 WHERE likes.LikeID = %s AND likes.AccID = %s AND blog_like.BlogID = %s", (likeid, acc_id, blogid))
+            cur.execute("DELETE FROM blog_like_test WHERE BlogID = %s AND AccID = %s", (blogid, acc_id))
             # Xóa cặp (blogid, commentid) từ bảng blog_comment
             # cur.execute("DELETE FROM blog_comment WHERE BlogID = %s AND CommentID = %s", (blogid, commentid))
             
             mysql.connection.commit()
             cur.close()
-            return "false like"
+            return "oke ddaasy con giai"
     except Exception:
         return "false thất bại"
-
-
-#hàm like set True
-def use_like(mysql):
-    if not session.get('logged_in'):
-        return redirect(url_for('login_page'))
     
-    acc_id = session.get('AccID')
+
+def count_like(mysql):
     blogid = request.form.get('blogid')
-    likeid = request.form.get('likeid')
-    try:
-        with mysql.connection.cursor() as cur:
-            # Xóa bình luận từ bảng comment
-            cur.execute("UPDATE likes INNER JOIN blog_likes ON likes.id = blog_likes.LikeID SET likes.Likes = 1 WHERE likes.LikeID = %s AND likes.AccID = %s AND blog_like.BlogID = %s", (likeid, acc_id, blogid))
-            # Xóa cặp (blogid, commentid) từ bảng blog_comment
-            # cur.execute("DELETE FROM blog_comment WHERE BlogID = %s AND CommentID = %s", (blogid, commentid))
+    # print(blogid)
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT COUNT(BlogID) FROM blog_like_test WHERE BlogID = %s", (blogid,))
+    row = cur.fetchone()
+    count = row[0]
+    mysql.connection.commit()
+    cur.close()
+    print(count)
+    return count
+
+# #hàm like set True
+# def use_like(mysql):
+#     if not session.get('logged_in'):
+#         return redirect(url_for('login_page'))
+    
+#     acc_id = session.get('AccID')
+#     blogid = request.form.get('blogid')
+#     likeid = request.form.get('likeid')
+#     try:
+#         with mysql.connection.cursor() as cur:
+#             # Xóa bình luận từ bảng comment
+#             cur.execute("UPDATE likes INNER JOIN blog_likes ON likes.id = blog_likes.LikeID SET likes.Likes = 1 WHERE likes.LikeID = %s AND likes.AccID = %s AND blog_like.BlogID = %s", (likeid, acc_id, blogid))
+#             # Xóa cặp (blogid, commentid) từ bảng blog_comment
+#             # cur.execute("DELETE FROM blog_comment WHERE BlogID = %s AND CommentID = %s", (blogid, commentid))
             
-            mysql.connection.commit()
-            cur.close()
-            return "true like"
-    except Exception:
-        return "true like thất bại"
+#             mysql.connection.commit()
+#             cur.close()
+#             return "true like"
+#     except Exception:
+#         return "true like thất bại"
 
 
 
@@ -214,30 +226,32 @@ def use_like(mysql):
 #hàm kiểm tra like
 def show_like(mysql):
     cur = mysql.connection.cursor()
-    cur.execute("SELECT blog_likes.BlogID, likes.LikeID, likes.AccID, likes.likes FROM blog_likes INNER JOIN likes ON blog_likes.LikeID = likes.LikeID")
-    like = cur.fetchall()
+    cur.execute("SELECT BlogID, AccID, Likes FROM blog_like_test")
+    likes = cur.fetchall()
     cur.close()
 
     like_details = []
 
-    for row in like:
-        blogid = row[0]
-        likeid = row[1]
-        accid = row[2]
-        likes = row[3]
+    for like in likes:
+        blogid = like[0]
+        accid = like[1]
+        like = like[2]
 
-        like_de = {
+        blog_like_aa = {
             'blogid' : blogid,
-            'likeid' : likeid,
             'accid' : accid,
-            'likes' : likes
+            'like' : like
+            
         }
-
-        like_details.append(like_de)
-
-    print(like_details)
-
+        like_details.append(blog_like_aa)
+        
+        # print(like_details)    
     return like_details
+        
+
+    # if like: 
+    #     like_details = True
+    # return like_details
 
 # def process_like(mysql):
 #     if not session.get('logged_in'):

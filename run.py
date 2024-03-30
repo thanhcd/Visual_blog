@@ -6,7 +6,7 @@ from auth import auth_logout as auth_logout
 from edit_user import edit_user as edit
 from edit_user import show_user_details as show
 from blogpost import post, show_post_details as show_post, del_post as delete, update_post as sua_post
-from newfeed import get_feed, comment, show_comment_details, del_comment_details, update_comment, like, show_like, del_like, use_like
+from newfeed import get_feed, comment, show_comment_details, del_comment_details, update_comment, like, show_like, del_like, count_like
 
 from flask_mysqldb import MySQL
 from routes import *
@@ -79,6 +79,7 @@ def del_post():
 def update_post():
     return sua_post(mysql)
 
+
 # @app.route('/blog')
 # def show_feed():
 #     return feed(mysql)
@@ -97,14 +98,14 @@ def newfeed():
 def likes():
     return like(mysql)
 
-@app.route('/false_like', methods =["POST", "GET"])
+@app.route('/del_like', methods =["POST", "GET"])
 def dis_like():
     return del_like(mysql)
 
 
-@app.route('/true_like', methods =["POST", "GET"])
-def true_like():
-    return use_like(mysql)
+# @app.route('/true_like', methods =["POST", "GET"])
+# def true_like():
+#     return use_like(mysql)
 
 ###Trả về 2 trang
 @app.route('/register_page')
@@ -165,6 +166,9 @@ if __name__ == '__main__':
 # Sau đó là git commit -m "ghi cc gì vô đây cũng đc, chủ yếu là ghi nội dung mình đã code"
 # Rồi git push origin master
 # OK chưa, code thay đổi ở file nào thì nó sẽ hiện chữ M ở file đó, với cái dấu màu xanh ở đầu dòng
+#BlogID     AccID	isLike
+#1          1       true
+#1          2       true
 
 
 

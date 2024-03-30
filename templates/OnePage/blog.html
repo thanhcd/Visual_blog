@@ -175,31 +175,37 @@
                         {% endif %}
                         {% endfor %}
                       </div>
-                      <div class="row-md-4">
-                        {% if like_details %}
-                          {% for like_detail in like_details %}
-                            {% if post.blogid == like_detail.blogid and like_detail.accid == session['AccID'] %}
-                              {% if like_detail.likes == 1 %}
-                                <form action='/false_like' method="POST">
-                                  <input type="hidden" name="blogid" value="{{ post.blogid }}">
-                                  <input type="hidden" name="likeid" value="{{ like_detail.likeid }}">
-                                  <button class="btn btn-block">OK</button>
-                                </form>
-                              {% elif like_detail.likes == 0 %}
-                                <form action="/true_like" method="POST">
-                                  <input type="hidden" name="likeid" value="{{ like_detail.likeid }}">
-                                  <input type="hidden" name="blogid" value="{{ post.blogid }}">
-                                  <button class="btn btn-block">NO</button>
-                                </form>
-                              {% endif %}
-                            {% endif %}
-                          {% endfor %}
+                      {% if like_details %}
+                      {% for like_detail in like_details %}
+                        {% if post.blogid == like_detail.blogid and like_detail.accid == session['AccID'] %}
+                        <div class="row-md-4">
+                          <form action="/del_like" method="POST">
+                            <input type="hidden" name="blogid" value="{{ post.blogid }}">
+                            <button class="btn btn-block"><i class='bx bxs-like'></i></button>
+                          </form>
+                        </div>
                         {% else %}
+                        <div class="row-md-4">
                           <form action="/like_blog" method="POST">
                             <input type="hidden" name="blogid" value="{{ post.blogid }}">
-                            <button class="btn btn-block">dell</button>
+                            <button class="btn btn-block"><i class='bx bx-like'></i></button>
                           </form>
+                        </div>
                         {% endif %}
+                      {% endfor %}
+                      {% else %}
+                        <div class="row-md-4">
+                          <form action="/like_blog" method="POST">
+                            <input type="hidden" name="blogid" value="{{ post.blogid }}">
+                            <button class="btn btn-block"><i class='bx bx-like'></i></button>
+                          </form>
+                        </div>
+                      {% endif %}
+                      <div class="row-md-4">
+                        <!-- <form action="/like_blog" method="POST"> -->
+                          <!-- <input type="hidden" name="blogid" value="{{ post.blogid }}"> -->
+                         
+                        <!-- </form> -->
                       </div>
                       <div class="row-md-4">
                         <button class="btn btn-primary btn-block" data-bs-toggle="modal" data-bs-target="#comment"
