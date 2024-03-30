@@ -176,6 +176,32 @@
                         {% endfor %}
                       </div>
                       <div class="row-md-4">
+                        {% if like_details %}
+                          {% for like_detail in like_details %}
+                            {% if post.blogid == like_detail.blogid and like_detail.accid == session['AccID'] %}
+                              {% if like_detail.likes == 1 %}
+                                <form action='/false_like' method="POST">
+                                  <input type="hidden" name="blogid" value="{{ post.blogid }}">
+                                  <input type="hidden" name="likeid" value="{{ like_detail.likeid }}">
+                                  <button class="btn btn-block">OK</button>
+                                </form>
+                              {% elif like_detail.likes == 0 %}
+                                <form action="/true_like" method="POST">
+                                  <input type="hidden" name="likeid" value="{{ like_detail.likeid }}">
+                                  <input type="hidden" name="blogid" value="{{ post.blogid }}">
+                                  <button class="btn btn-block">NO</button>
+                                </form>
+                              {% endif %}
+                            {% endif %}
+                          {% endfor %}
+                        {% else %}
+                          <form action="/like_blog" method="POST">
+                            <input type="hidden" name="blogid" value="{{ post.blogid }}">
+                            <button class="btn btn-block">dell</button>
+                          </form>
+                        {% endif %}
+                      </div>
+                      <div class="row-md-4">
                         <button class="btn btn-primary btn-block" data-bs-toggle="modal" data-bs-target="#comment"
                           style="margin-left: 30rem;" data-blogid="{{ post.blogid }}">
                           Comments

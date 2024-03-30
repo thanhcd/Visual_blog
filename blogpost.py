@@ -26,6 +26,9 @@ def post(mysql):
         image.save(f'static/assets/img/uploads/{image.filename}')
         cur = mysql.connection.cursor()
         cur.execute("INSERT INTO blog(AccID, Content, Image) VALUES (%s, %s, %s)", (acc_id, content, image.filename))
+        blog_id = cur.fetchone()[0]
+
+        cur.execute("INSERT INTO ")
         mysql.connection.commit()
         cur.close()
         return "Đăng bài thành công"

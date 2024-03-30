@@ -73,3 +73,5 @@ def auth_logout():
 
 def arthur():
     return f"I'm a not a king, i'm not a god, i'm flolontino"
+
+
