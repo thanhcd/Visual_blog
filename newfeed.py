@@ -177,8 +177,6 @@ def del_like(mysql):
         with mysql.connection.cursor() as cur:
             # Xóa bình luận từ bảng comment
             cur.execute("DELETE FROM blog_like_test WHERE BlogID = %s AND AccID = %s", (blogid, acc_id))
-            # Xóa cặp (blogid, commentid) từ bảng blog_comment
-            # cur.execute("DELETE FROM blog_comment WHERE BlogID = %s AND CommentID = %s", (blogid, commentid))
             
             mysql.connection.commit()
             cur.close()
@@ -187,46 +185,12 @@ def del_like(mysql):
         return "false thất bại"
     
 
-def count_like(mysql):
-    blogid = request.form.get('blogid')
-    # print(blogid)
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT COUNT(BlogID) FROM blog_like_test WHERE BlogID = %s", (blogid,))
-    row = cur.fetchone()
-    count = row[0]
-    mysql.connection.commit()
-    cur.close()
-    print(count)
-    return count
-
-# #hàm like set True
-# def use_like(mysql):
-#     if not session.get('logged_in'):
-#         return redirect(url_for('login_page'))
-    
-#     acc_id = session.get('AccID')
-#     blogid = request.form.get('blogid')
-#     likeid = request.form.get('likeid')
-#     try:
-#         with mysql.connection.cursor() as cur:
-#             # Xóa bình luận từ bảng comment
-#             cur.execute("UPDATE likes INNER JOIN blog_likes ON likes.id = blog_likes.LikeID SET likes.Likes = 1 WHERE likes.LikeID = %s AND likes.AccID = %s AND blog_like.BlogID = %s", (likeid, acc_id, blogid))
-#             # Xóa cặp (blogid, commentid) từ bảng blog_comment
-#             # cur.execute("DELETE FROM blog_comment WHERE BlogID = %s AND CommentID = %s", (blogid, commentid))
-            
-#             mysql.connection.commit()
-#             cur.close()
-#             return "true like"
-#     except Exception:
-#         return "true like thất bại"
-
-
-
 
 #hàm kiểm tra like
 def show_like(mysql):
+    acc_id = session.get('AccID')
     cur = mysql.connection.cursor()
-    cur.execute("SELECT BlogID, AccID, Likes FROM blog_like_test")
+    cur.execute("SELECT BlogID, AccID, Likes FROM blog_like_test WHERE AccID = %s  ", (acc_id, ))
     likes = cur.fetchall()
     cur.close()
 
@@ -245,57 +209,17 @@ def show_like(mysql):
         }
         like_details.append(blog_like_aa)
         
-        # print(like_details)    
     return like_details
         
 
-    # if like: 
-    #     like_details = True
-    # return like_details
-
-# def process_like(mysql):
-#     if not session.get('logged_in'):
-#         return redirect(url_for('login_page'))
-    
-#     acc_id = session.get('AccID')
-#     blogid = request.form.get('blogid')
-#     print(acc_id)
-#     print(blogid)
-
-#     if request.method == "POST":
-#         cur = mysql.connection.cursor()
-#         cur.execute("INSERT INTO likes(AccID, Likes) VALUES (%s, %s)", (acc_id, True))
-#         cur.execute("SELECT LAST_INSERT_ID()")
-#         likes_id = cur.fetchone()[0]
-
-#         cur.execute("INSERT INTO blog_likes(BlogID, LikeID) VALUES (%s, %s)", (blogid, likes_id))
-#         mysql.connection.commit()
-#         cur.close()
-#         like_status = "Thích thành công"
-#     else:
-#         cur = mysql.connection.cursor()
-#         cur.execute("SELECT blog_likes.BlogID, likes.LikeID, likes.AcID, likes.likes FROM blog_likes INNER JOIN likes ON blog_likes.LikeID = likes.LikeID WHERE blog_likes.BlogID = %s AND likes.AccID = %s", (blogid, acc_id))
-#         like = cur.fetchall()
-#         cur.close()
-
-#         like_details = []
-
-#         for row in like:
-#             likes = row[0]
-#             accid = row[1]
-#             blogid = row[2]
-#             likeid = row[3]
-
-#             like_de = {
-#                 'like': likes,
-#                 'accid': accid,
-#                 'blogid': blogid,
-#                 'likeid': likeid
-#             }
-
-#             like_details.append(like_de)
-
-#         print(like_details)
-#         like_status = like_details
-
-#     return like_status
+def count_like(mysql):
+    blogid = request.form.get('blogid')
+    # print(blogid)
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT COUNT(Likes) FROM blog_like_test WHERE BlogID = %s", (blogid,))
+    row = cur.fetchone()
+    count = row[0]
+    mysql.connection.commit()
+    cur.close()
+    print(count)
+    return count

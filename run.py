@@ -91,7 +91,7 @@ def newfeed():
     comment_details = show_comment_details(mysql)
     
     like_details = show_like(mysql)
-
+    
     return render_template('Onepage/blog.html',  posts=posts, comment_details=comment_details, like_details = like_details)
 
 @app.route('/like_blog', methods=["POST", "GET"])
