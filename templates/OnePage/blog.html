@@ -141,10 +141,6 @@
                   <img class="output-img-post" src="{{ post.image }}" alt="Post Image" />
                   <hr />
                   <div class="d-flex justify-content-between align-items-center">
-                    <div class="d-flex flex-row icons d-flex align-items-center">
-                      <i class="fa fa-heart"></i>
-                      <i class="fa fa-smile-o ml-2"></i>
-                    </div>
                     <div class="container">
                       <div class="row">
                         {% for comment in comment_details %}
@@ -175,9 +171,35 @@
                         {% endif %}
                         {% endfor %}
                       </div>
-                      
-                      {% include 'OnePage/test.html' %}
-                      
+                      <div class="like-count">
+                        {{ post.like_count }} likes
+                      </div>
+                      {% if like_details %}
+                      {% set liked_posts = [] %}
+                        {% for like_detail in like_details %}
+                          {% if like_detail.blogid == post.blogid and like_detail.accid == session['AccID'] %}
+                            {% set liked_posts = liked_posts.append(post.blogid) %}
+                          {% endif %}
+                        {% endfor %}
+                      {% endif %}
+
+                        {% if liked_posts and post.blogid in liked_posts %}
+                        <div class="row-md-4">
+                          <form action="/del_like" method="POST">
+                            <input type="hidden" name="blogid" value="{{ post.blogid }}">
+                            <button class="btn btn-block"><i class='bx bxs-like'></i></button>
+                          </form>
+                        </div>
+                        {% else %}
+                        <div class="row-md-4">
+                          <form action="/like_blog" method="POST">
+                            <input type="hidden" name="blogid" value="{{ post.blogid }}">
+                            <button class="btn btn-block"><i class='bx bx-like'></i></button>
+                          </form>
+                        </div>
+                        {% endif %}
+
+
                       <div class="row-md-4">
                         <button class="btn btn-primary btn-block" data-bs-toggle="modal" data-bs-target="#comment"
                           style="margin-left: 30rem;" data-blogid="{{ post.blogid }}">

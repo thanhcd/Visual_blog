@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 27, 2024 lúc 04:07 PM
+-- Thời gian đã tạo: Th4 02, 2024 lúc 04:35 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -77,9 +77,10 @@ CREATE TABLE `blog` (
 --
 
 INSERT INTO `blog` (`BlogID`, `AccID`, `Content`, `Image`, `TotalLikes`) VALUES
-(1, 7, 'siuuuuuuuuuuuuuuuuuuuuuuuu\r\n', '432768240_410487704962589_8045077667653422121_n.jpg', 0),
 (3, 7, 'que mira bobo\r\n', '432768240_410487704962589_8045077667653422121_n.jpg', 0),
-(4, 7, 'nó lực vl, thề!', '3489939-71145948-2560-1440.jpg', 0);
+(4, 7, 'nó lực vl, thề!', '3489939-71145948-2560-1440.jpg', 0),
+(6, 7, 'địt mẹ code lồn ', 'lehmann1200.jpg', 0),
+(11, 7, 'ádasdasdasd', '77711_v9_bc.jpg', 0);
 
 -- --------------------------------------------------------
 
@@ -97,22 +98,33 @@ CREATE TABLE `blog_comment` (
 --
 
 INSERT INTO `blog_comment` (`BlogID`, `CommentID`) VALUES
-(3, 12),
-(3, 15),
-(3, 16),
-(4, 8),
-(4, 10);
+(3, 17),
+(4, 10),
+(4, 20),
+(6, 21);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `blog_likes`
+-- Cấu trúc bảng cho bảng `blog_like_test`
 --
 
-CREATE TABLE `blog_likes` (
+CREATE TABLE `blog_like_test` (
   `BlogID` int(10) NOT NULL,
-  `LikesID` int(10) NOT NULL
+  `AccID` int(11) NOT NULL,
+  `Likes` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `blog_like_test`
+--
+
+INSERT INTO `blog_like_test` (`BlogID`, `AccID`, `Likes`) VALUES
+(3, 7, 1),
+(4, 7, 1),
+(4, 9, 1),
+(11, 7, 1),
+(11, 9, 1);
 
 -- --------------------------------------------------------
 
@@ -131,23 +143,10 @@ CREATE TABLE `comment` (
 --
 
 INSERT INTO `comment` (`CommentID`, `AccID`, `Comment`) VALUES
-(8, 8, 'lực đấy'),
-(10, 8, 'nhma nhìn đáng yêu đấy'),
-(12, 8, 'địt mẹ sôn lì'),
-(15, 8, 'jfgjfgjdfgdfgdfg'),
-(16, 8, 'jfgjfgjdfgdfgdfgsdfsdf');
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `likes`
---
-
-CREATE TABLE `likes` (
-  `LikeID` int(10) NOT NULL,
-  `AccID` int(10) NOT NULL,
-  `Likes` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+(10, 8, 'bbb'),
+(17, 9, 'cũng bình thường ấy mà!'),
+(20, 8, 'ấdasdasdfghfghfg'),
+(21, 9, 'qeu mỉa bobo');
 
 -- --------------------------------------------------------
 
@@ -221,22 +220,16 @@ ALTER TABLE `blog_comment`
   ADD KEY `BlogID` (`BlogID`,`CommentID`);
 
 --
--- Chỉ mục cho bảng `blog_likes`
+-- Chỉ mục cho bảng `blog_like_test`
 --
-ALTER TABLE `blog_likes`
-  ADD KEY `BlogID` (`BlogID`,`LikesID`);
+ALTER TABLE `blog_like_test`
+  ADD UNIQUE KEY `BlogID` (`BlogID`,`AccID`);
 
 --
 -- Chỉ mục cho bảng `comment`
 --
 ALTER TABLE `comment`
   ADD PRIMARY KEY (`CommentID`);
-
---
--- Chỉ mục cho bảng `likes`
---
-ALTER TABLE `likes`
-  ADD PRIMARY KEY (`LikeID`);
 
 --
 -- Chỉ mục cho bảng `permission`
@@ -264,19 +257,13 @@ ALTER TABLE `account`
 -- AUTO_INCREMENT cho bảng `blog`
 --
 ALTER TABLE `blog`
-  MODIFY `BlogID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `BlogID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `CommentID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
---
--- AUTO_INCREMENT cho bảng `likes`
---
-ALTER TABLE `likes`
-  MODIFY `LikeID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `CommentID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Các ràng buộc cho các bảng đã đổ

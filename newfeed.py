@@ -156,10 +156,7 @@ def like(mysql):
         # likes = request.form['like']
         cur = mysql.connection.cursor()
         cur.execute("INSERT INTO blog_like_test(BlogID, AccID, Likes) VALUES (%s, %s, %s)", (blogid, acc_id, True))
-        # cur.execute("SELECT LAST_INSERT_ID()")
-        # likes_id = cur.fetchone()[0]
 
-        # cur.execute("INSERT INTO blog_likes(BlogID, LikeID) VALUES (%s, %s)", (blogid, likes_id))
         mysql.connection.commit()
         cur.close()
         return "like thành công"
@@ -212,14 +209,11 @@ def show_like(mysql):
     return like_details
         
 
-def count_like(mysql):
-    blogid = request.form.get('blogid')
-    # print(blogid)
+def count_like(mysql, blogid):
     cur = mysql.connection.cursor()
     cur.execute("SELECT COUNT(Likes) FROM blog_like_test WHERE BlogID = %s", (blogid,))
     row = cur.fetchone()
     count = row[0]
     mysql.connection.commit()
     cur.close()
-    print(count)
     return count

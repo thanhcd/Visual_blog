@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect,flash, session
+from flask import Flask, render_template, request, url_for, redirect,flash, session, jsonify
 # from auth import login_manager, login, logout
 from auth import register as auth_register
 from auth import login as auth_login
@@ -80,19 +80,31 @@ def update_post():
     return sua_post(mysql)
 
 
-# @app.route('/blog')
-# def show_feed():
-#     return feed(mysql)
-
 #hàm hiển thị all blog ở trang newfeed, comment
-@app.route('/newfeed', methods = ["POST", "GET"])   
+
+@app.route('/newfeed', methods=["POST", "GET"])
 def newfeed():
+    # Lấy danh sách bài đăng từ hàm get_feed
     posts = get_feed(mysql)
+    
+    # Duyệt qua từng bài đăng và tính tổng lượt thích
+    for post in posts:
+        post['like_count'] = count_like(mysql, post['blogid'])
+
     comment_details = show_comment_details(mysql)
-    
     like_details = show_like(mysql)
+
+    return render_template('Onepage/blog.html', posts=posts, comment_details=comment_details, like_details=like_details)
+
+@app.route('/count_like', methods=['POST'])
+def count_like_route():
+    # Lấy blogid từ request.form
+    blogid = request.form.get('blogid')
     
-    return render_template('Onepage/blog.html',  posts=posts, comment_details=comment_details, like_details = like_details)
+    # Gọi hàm count_like và trả về kết quả
+    like_count = count_like(mysql, blogid)
+    return jsonify({'like_count': like_count})
+
 
 @app.route('/like_blog', methods=["POST", "GET"])
 def likes():
@@ -153,7 +165,6 @@ def inner_page():
     return render_template('Onepage/inner-page.html',  posts=show_blog, comment_details=comment_details)
 
 
-# Route cho API
 
 
 # Run ứng dụng Flask
