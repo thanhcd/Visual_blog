@@ -6,7 +6,7 @@ from auth import auth_logout as auth_logout
 from edit_user import edit_user as edit
 from edit_user import show_user_details as show
 from blogpost import post, show_post_details as show_post, del_post as delete, update_post as sua_post
-from newfeed import get_feed, comment, show_comment_details, del_comment_details, update_comment, like, show_like, del_like, count_like
+from newfeed import get_feed, comment, show_comment_details, del_comment_details, update_comment, like, show_like, del_like, count_like, show_count_like_blog
 
 from flask_mysqldb import MySQL
 from routes import *
@@ -158,12 +158,17 @@ def updated_comment():
 def user_page():
     return show(mysql)
 
-@app.route('/inner')
+
+@app.route('/inner', methods=["POST", "GET"])
 def inner_page():
     show_blog = show_post(mysql)
     comment_details = show_comment_details(mysql)
-    return render_template('Onepage/inner-page.html',  posts=show_blog, comment_details=comment_details)
 
+    # Duyệt qua từng bài đăng và tính tổng lượt thích
+    for post in show_blog:
+        post['like_count'] = count_like(mysql, post['blogid'])
+    
+    return render_template('Onepage/inner-page.html', posts=show_blog, comment_details=comment_details)
 
 
 

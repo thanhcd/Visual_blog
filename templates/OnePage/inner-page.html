@@ -135,8 +135,11 @@
                         <p class="form-icon">Visualblog</p>
                       </span>
                       <small class="text-primary">
-                        {% if session['account'] %} {{ session['account'] }}
-                        {% else %} Anonymous User {% endif %}
+                        {% if session['account'] %}
+                        {{ session['account'] }}
+                        {% else %}
+                        Anonymous User
+                        {% endif %}
                       </small>
                     </div>
                   </div>
@@ -150,7 +153,7 @@
                 <img src="https://i.imgur.com/xhzhaGA.jpg" class="img-fluid" />
                 <div class="p-2">
                   <p class="text-justify">{{ post.content }}</p>
-                  <img class="output-img-post" src="{{ post.image }}" alt="Post Image" />
+                  <img class="output-img-post" src="{{ post.image }}" alt="" />
                   <hr />
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="d-flex flex-row icons d-flex align-items-center">
@@ -172,29 +175,34 @@
                       <hr>
                       {% endif %}
                       {% endfor %}
+                      <div class="like-count" style="color: #a09c9c; font-size: 13px;">
+                        Đã có {{ post.like_count }} lượt thích
                     </div>
-                    <div class="d-flex flex-row muted-color" style = "margin-left : 28rem;">
-                      <form action="/del_blog" method="POST">
-                        <input type="hidden" name="blogid" value="{{ post.blogid }}" />
-                        <input type="hidden" name="accid" value="{{ post.accid }}" />
-                        <button class="btn btn-primary" type="submit" style="margin-right: 5px;">delete</button>
-                      </form>
-                      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editblog"
-                        data-blogid="{{ post.blogid }}" data-accid="{{ post.accid }}" data-image="{{ post.image }}"
-                        data-content="{{ post.content }}">
-                        Edit
-                      </button>
                     </div>
                   </div>
-                  <hr />
                 </div>
               </div>
+              <div class="d-flex flex-row muted-color" style="margin-left : 28rem;">
+                <form action="/del_blog" method="POST">
+                  <input type="hidden" name="blogid" value="{{ post.blogid }}" />
+                  <input type="hidden" name="accid" value="{{ post.accid }}" />
+                  <button class="btn btn-primary" type="submit" style="margin-right: 5px;">delete</button>
+                </form>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editblog"
+                  data-blogid="{{ post.blogid }}" data-accid="{{ post.accid }}" data-image="{{ post.image }}"
+                  data-content="{{ post.content }}">
+                  Edit
+                </button>
+              </div>
+              <hr />
             </div>
           </div>
         </div>
       </div>
+      </div>
       {% endfor %}
     </section>
+
   </main>
   <!-- End #main -->
 

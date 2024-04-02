@@ -12,25 +12,35 @@ class User(UserMixin):
 users = {'user': User('user', 'password')}
 
 
-
 def post(mysql):
     if not session.get('logged_in'):
         return redirect(url_for('login_page'))
     
     acc_id = session.get('AccID')  # Lấy AccID từ phiên làm việc
-    print(acc_id)
     
     if request.method == "POST":
-        details = request.form
-        content = details["content"]
-        image = request.files["image"]
-        image.save(f'static/assets/img/uploads/{image.filename}')
-        cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO blog(AccID, Content, Image) VALUES (%s, %s, %s)", (acc_id, content, image.filename))
-        mysql.connection.commit()
-        cur.close()
-        return "Đăng bài thành công"
-    return "đăng không thành công "
+        content = request.form.get("content")
+        image = request.files.get("image")
+        
+        if content:
+            if image:
+                image_filename = secure_filename(image.filename)
+                image_path = f'static/assets/img/uploads/{image_filename}'
+                image.save(image_path)
+            else:
+                image_path = None
+                
+            cur = mysql.connection.cursor()
+            cur.execute("INSERT INTO blog (AccID, Content, Image) VALUES (%s, %s, %s)", (acc_id, content, image_path))
+            mysql.connection.commit()
+            cur.close()
+            
+            return "Đăng bài thành công"
+        
+        return "Nội dung bài đăng không được để trống"
+    
+    return "Đăng bài không thành công"
+
 
 
 def show_post_details(mysql):
@@ -58,7 +68,7 @@ def show_post_details(mysql):
         }
         posts.append(post)
         
-    print(posts)
+    # print(posts)
 
     # Return the populated 'posts' list for template rendering
     # return render_template('OnePage/inner-page.html', posts=posts)

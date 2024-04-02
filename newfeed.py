@@ -208,7 +208,7 @@ def show_like(mysql):
         
     return like_details
         
-
+#count và hiển thị like ở newfeed
 def count_like(mysql, blogid):
     cur = mysql.connection.cursor()
     cur.execute("SELECT COUNT(Likes) FROM blog_like_test WHERE BlogID = %s", (blogid,))
@@ -217,3 +217,28 @@ def count_like(mysql, blogid):
     mysql.connection.commit()
     cur.close()
     return count
+
+
+# def show_count_like_blog(mysql):
+#     cur = mysql.connection.cursor()
+#     cur.execute("SELECT blog_like_test.accid, blog_like_test.blogid, user.username FROM blog_like_test INNER JOIN user ON blog_like_test.accid = user.accid")
+#     users = cur.fetchall()
+#     cur.close()
+
+#     user_likes = []
+
+#     for user in users:
+#         accid = user[0]
+#         blogid = user[1]
+#         username = user[2]
+
+#         user_aa = {
+#             'accid' : accid,
+#             'blogid' : blogid,
+#             'username' : username
+
+#         }
+#         user_likes.append(user_aa)
+        
+#     print(user_likes)
+#     return user_likes
